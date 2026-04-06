@@ -149,7 +149,7 @@ Responsável pela persistência e pelas consultas.
 |---|---|---|---|
 | `Entities` | Representar a persistência canônica do módulo | JPA, `@Entity`, mapeamentos, constraints estruturais | Concentrar fluxo de negócio |
 | `Repositories` | Sustentar a persistência canônica e consultas simples do agregado | Spring Data JPA, métodos derivados, persistência do agregado | Virar orquestrador de caso de uso ou motor de regra |
-| `Queries` | Resolver leitura, filtros, projeções, relatórios e joins | `JdbcTemplate`, `NamedParameterJdbcTemplate`, `EntityManager`, projections, Querydsl | Escrita transacional e decisão de regra |
+| `Queries` | Resolver leitura, filtros, projeções, relatórios e joins | `@Query`, projections, `EntityManager`, Querydsl | Escrita transacional e decisão de regra |
 
 ---
 
@@ -388,9 +388,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "companies")
 public class CompanyEntity {
@@ -414,50 +420,6 @@ public class CompanyEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private CompanyStatus status;
-
-    public Long getId() {
-        return id;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDocument() {
-        return document;
-    }
-
-    public void setDocument(String document) {
-        this.document = document;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public CompanyStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(CompanyStatus status) {
-        this.status = status;
-    }
 }
 ```
 
@@ -485,74 +447,48 @@ public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
 ```java
 package com.m3l.modules.companies.infrastructure.queries;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
+import com.m3l.modules.companies.domain.enums.CompanyStatus;
+import com.m3l.modules.companies.infrastructure.entities.CompanyEntity;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-@Repository
-public class CompanyListQuery {
+public interface CompanyListQuery extends Repository<CompanyEntity, Long> {
 
-    private final NamedParameterJdbcTemplate jdbc;
+    @Query("""
+        select new com.m3l.modules.companies.infrastructure.queries.CompanyListQuery.CompanyListItem(
+            c.id,
+            c.uuid,
+            c.name,
+            c.document,
+            c.type,
+            c.status
+        )
+        from CompanyEntity c
+        where (:status is null or c.status = :status)
+          and (:name is null or lower(c.name) like lower(concat('%', :name, '%')))
+        order by c.name
+    """)
+    List<CompanyListItem> handle(
+        @Param("status") CompanyStatus status,
+        @Param("name") String name
+    );
 
-    public CompanyListQuery(NamedParameterJdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
-
-    public List<CompanyListItem> handle(String status, String name) {
-        var sql = new StringBuilder("""
-            select
-                c.id,
-                c.uuid,
-                c.name,
-                c.document,
-                c.type,
-                c.status
-            from companies c
-            where 1 = 1
-        """);
-
-        var params = new MapSqlParameterSource();
-
-        if (status != null && !status.isBlank()) {
-            sql.append(" and c.status = :status");
-            params.addValue("status", status);
-        }
-
-        if (name != null && !name.isBlank()) {
-            sql.append(" and c.name like :name");
-            params.addValue("name", "%" + name + "%");
-        }
-
-        sql.append(" order by c.name");
-
-        return jdbc.query(sql.toString(), params, (rs, rowNum) -> new CompanyListItem(
-            rs.getLong("id"),
-            rs.getString("uuid"),
-            rs.getString("name"),
-            rs.getString("document"),
-            rs.getString("type"),
-            rs.getString("status")
-        ));
-    }
-
-    public record CompanyListItem(
+    record CompanyListItem(
         Long id,
-        String uuid,
+        UUID uuid,
         String name,
         String document,
         String type,
-        String status
+        CompanyStatus status
     ) {}
 }
 ```
 
 </details>
-
-Os exemplos acima refletem o uso recomendado do padrão no Spring Boot: controller magro, service orientado a ação, business puro, entity e repository canônicos para persistência e query dedicada à leitura.
-
----
 
 ## Consultas cross-module
 
