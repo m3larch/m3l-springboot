@@ -82,11 +82,11 @@ Cada módulo concentra sua entrada HTTP, sua orquestração, sua regra de negóc
 | `domain` | Orquestração e regra de negócio |
 | `infrastructure` | Persistência e consultas |
 
-### Observação importante sobre adaptação ao Spring Boot
+### Observação importante sobre a materialização no Spring Boot
 
-No Laravel, a persistência canônica aparece de forma mais direta em `Models`. No Spring Boot, essa responsabilidade naturalmente se materializa como **`Entity` + `Repository`**. O M3L permanece o mesmo; a tradução para a stack é que muda.
+No Spring Boot, a persistência canônica do módulo se materializa naturalmente por meio de **`Entity` + `Repository`**. Já a saída HTTP costuma ser representada por **response DTOs**, organizados em `http/responses`.
 
-Da mesma forma, o equivalente dos `Resources` do Laravel costuma aparecer aqui como **response DTOs**, organizados em `http/responses`.
+O princípio arquitetural permanece o mesmo: o que muda é apenas a forma como cada responsabilidade se concretiza dentro da stack.
 
 ---
 
