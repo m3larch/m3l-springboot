@@ -1,0 +1,82 @@
+M3L Architecture Licensing Notice
+
+Copyright (c) 2026 Leandro de Amorim
+All rights reserved except as expressly granted below.
+
+This repository contains different types of material. To keep the licensing clear,
+the permissions below are split by content type.
+
+1. Documentation and non-software content
+----------------------------------------
+Unless otherwise noted, all documentation and non-software content in this
+repository — including manuals, README files, architectural descriptions,
+diagrams, explanatory texts, website copy, and similar original expressive
+materials — are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0).
+
+You are free to:
+- share: copy and redistribute the material in any medium or format;
+- adapt: remix, transform, and build upon the material;
+- use it commercially;
+
+under the following condition:
+- attribution: you must give appropriate credit, provide a link to the source,
+  provide a link to the license, and indicate if changes were made.
+
+Full license text:
+https://creativecommons.org/licenses/by/4.0/
+
+Suggested attribution format:
+"M3L Architecture" by Leandro de Amorim, licensed under CC BY 4.0.
+Source: https://github.com/m3larch/m3l-springboot
+
+2. Source code examples and software snippets
+---------------------------------------------
+Unless otherwise noted, all source code examples, snippets, templates, and sample
+implementations in this repository are licensed under the MIT License.
+
+MIT License
+
+Copyright (c) 2026 Leandro de Amorim
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+3. Ownership, ideas, name, and branding
+---------------------------------------
+This license notice grants permission to use the copyrighted materials in this
+repository under the terms above, but it does not transfer authorship or
+ownership.
+
+For clarity:
+- copyright protects the original expression embodied in the materials, not the
+  underlying abstract ideas, concepts, methods, or architecture patterns by
+  themselves;
+- Leandro de Amorim remains the original author of the M3L Architecture
+  materials contained in this repository;
+- the names "M3L" and "M3L Architecture", as well as any logos, symbols,
+  visual identity assets, and branding elements, are not licensed under CC BY
+  4.0 or MIT, except to the limited extent necessary for truthful attribution,
+  reference, and nominative use.
+
+No trademark rights are granted by this file.
+
+4. If a file says otherwise, that file wins
+-------------------------------------------
+If a specific file, directory, or asset includes a different license notice,
+that specific notice controls for that material.
